@@ -1,0 +1,9 @@
+{
+  "server_host": "localhost",
+  "server_port": 8998,
+  "mysql_host": "localhost",
+  "mysql_user": "root",
+  "mysql_pwd": "root",
+  "mysql_db": "daughter",
+  "mysql_port": 8306
+}

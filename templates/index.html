@@ -1,0 +1,11 @@
+{% extends "main.html" %}
+{% block body %}
+<div>This is body</div>
+<script>
+    var a = {n:1};
+    b = a;
+    a.x = a = {n:2};
+    console.log(a.x);
+    console.log(b.x);
+</script>
+{% end %}
