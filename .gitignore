@@ -9,4 +9,4 @@
 
 # Ignore all logfiles and tempfiles.
 .idea
-*.pyc
+*.py[cod]
