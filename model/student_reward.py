@@ -8,13 +8,14 @@ from peewee import MySQLDatabase
 from config.config import Config
 from model import student_info
 
+import datetime
 
 Config.load('../config/server.json')
-database = MySQLDatabase(Config.mysql_db, **{'threadlocals': True,
-                                             'host': Config.mysql_host,
-                                             'password': Config.mysql_pwd,
-                                             'port': Config.mysql_port,
-                                             'user': Config.mysql_user})
+database = MySQLDatabase(Config.mysql_db, autocommit=False, **{'threadlocals': True,
+                                                               'host': Config.mysql_host,
+                                                               'password': Config.mysql_pwd,
+                                                               'port': Config.mysql_port,
+                                                               'user': Config.mysql_user})
 
 
 class BaseModel(Model):
@@ -24,14 +25,15 @@ class BaseModel(Model):
 
 
 class StudentReward(BaseModel):
-    """定义数据表"""
+    """奖励　数据表"""
 
     student = ForeignKeyField(student_info.StudentInfo, related_name='reward_student')
     time = DateTimeField()  # 奖励时间
     title = CharField(50)  # 奖励名称
     rank = CharField(20)  # 级别
     organization = CharField(100)  # 奖励单位
-    create_time = DateTimeField()  # 创建时间
+    create_time = DateTimeField(default=datetime.datetime.now)  # 创建这条记录的时间
+    update_time = DateTimeField(default=datetime.datetime.now)  # 修改这条记录的时间
 
 
 class StudentRewardModel:

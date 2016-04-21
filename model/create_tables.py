@@ -2,7 +2,8 @@
 
 from peewee import MySQLDatabase
 from config.config import Config
-import grade_major
+import grade
+import major
 import student_info
 import student_behavior
 import student_punish
@@ -16,18 +17,19 @@ import score
 
 if __name__ == '__main__':
     Config.load('../config/server.json')
-    database = MySQLDatabase(Config.mysql_db, **{'threadlocals': True,
-                                             'host': Config.mysql_host,
-                                             'password': Config.mysql_pwd,
-                                             'port': Config.mysql_port,
-                                             'user': Config.mysql_user})
+    database = MySQLDatabase(Config.mysql_db, autocommit=False, **{'threadlocals': True,
+                                                                     'host': Config.mysql_host,
+                                                                     'password': Config.mysql_pwd,
+                                                                     'port': Config.mysql_port,
+                                                                     'user': Config.mysql_user})
 
     # Connect to our database.
-    database.connect()
+    database.begin()
 
     # Create the tables.
     database.create_tables([
-        grade_major.GradeMajor,
+        grade.Grade,
+        major.Major,
         student_info.StudentInfo,
         student_behavior.StudentBehavior,
         student_punish.StudentPunish,
@@ -38,3 +40,5 @@ if __name__ == '__main__':
         term.Term,
         score.Score
     ], safe=True)
+
+    database.commit()

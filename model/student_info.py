@@ -9,15 +9,16 @@ from peewee import TextField
 from peewee import IntegerField
 from config.config import Config
 
-import grade_major
+import datetime
+import grade
 
 
 Config.load('../config/server.json')
-database = MySQLDatabase(Config.mysql_db, **{'threadlocals': True,
-                                             'host': Config.mysql_host,
-                                             'password': Config.mysql_pwd,
-                                             'port': Config.mysql_port,
-                                             'user': Config.mysql_user})
+database = MySQLDatabase(Config.mysql_db, autocommit=False, **{'threadlocals': True,
+                                                              'host': Config.mysql_host,
+                                                               'password': Config.mysql_pwd,
+                                                               'port': Config.mysql_port,
+                                                               'user': Config.mysql_user})
 
 
 class BaseModel(Model):
@@ -27,13 +28,13 @@ class BaseModel(Model):
 
 
 class StudentInfo(BaseModel):
-    """定义数据表"""
+    """个人信息　数据表"""
 
     SID = CharField(20, null=False, index=True)  # 学生ID
     name = CharField(50, null=False)  # 姓名
     sex = CharField(10, null=False)  # 性别
     birth = DateTimeField()  # 出生日期
-    grade_major = ForeignKeyField(grade_major.GradeMajor, related_name='info_grade_major')  # 年级专业
+    grade_major = ForeignKeyField(grade.Grade, related_name='info_grade_major')  # 年级专业
     background = TextField(default=None)  # 家庭出身
     persion_status = CharField(50)  # 本人成分
     cultural_level = CharField(50)  # 文化程度
@@ -46,7 +47,8 @@ class StudentInfo(BaseModel):
     home_tel = CharField(20)  # 宿舍电话
     postcode = CharField(20)  # 邮编
     photo = TextField(default=None)  # 照片
-    create_time = DateTimeField(null=False)  # 创建这条记录的时间
+    create_time = DateTimeField(default=datetime.datetime.now)  # 创建这条记录的时间
+    update_time = DateTimeField(default=datetime.datetime.now)  # 修改这条记录的时间
 
 
 class StudentInfoModel:

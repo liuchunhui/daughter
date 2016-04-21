@@ -8,13 +8,15 @@ from peewee import MySQLDatabase
 from config.config import Config
 from model import student_info
 
+import datetime
+
 
 Config.load('../config/server.json')
-database = MySQLDatabase(Config.mysql_db, **{'threadlocals': True,
-                                             'host': Config.mysql_host,
-                                             'password': Config.mysql_pwd,
-                                             'port': Config.mysql_port,
-                                             'user': Config.mysql_user})
+database = MySQLDatabase(Config.mysql_db, autocommit=False, **{'threadlocals': True,
+                                                               'host': Config.mysql_host,
+                                                               'password': Config.mysql_pwd,
+                                                               'port': Config.mysql_port,
+                                                               'user': Config.mysql_user})
 
 
 class BaseModel(Model):
@@ -24,7 +26,7 @@ class BaseModel(Model):
 
 
 class StudentRelative(BaseModel):
-    """定义数据表"""
+    """家庭成员　数据表"""
 
     student = ForeignKeyField(student_info.StudentInfo, related_name='relative_student')
     RID= CharField(50)  # 身份证号
@@ -34,7 +36,8 @@ class StudentRelative(BaseModel):
     politics_status = CharField(50)  # 政治面貌
     post = CharField(50)  # 职务
     tel = CharField(100)  # 电话
-    create_time = DateTimeField()  # 创建时间
+    create_time = DateTimeField(default=datetime.datetime.now)  # 创建这条记录的时间
+    update_time = DateTimeField(default=datetime.datetime.now)  # 修改这条记录的时间
 
 
 class StudentRelativeModel:
