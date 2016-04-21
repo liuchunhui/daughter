@@ -33,15 +33,17 @@ class StudentInfo(BaseModel):
     name = CharField(50, null=False)  # 姓名
     sex = CharField(10, null=False)  # 性别
     birth = DateTimeField()  # 出生日期
-    grade_major = ForeignKeyField(grade_major.GradeMajor, related_name='belong_grade_major')  # 年级专业
+    grade_major = ForeignKeyField(grade_major.GradeMajor, related_name='info_grade_major')  # 年级专业
     background = TextField(default=None)  # 家庭出身
     persion_status = CharField(50)  # 本人成分
-    culture = CharField(50)  # 文化程度
+    cultural_level = CharField(50)  # 文化程度
     politics_status = CharField(50)  # 政治面貌
     nation = CharField(50)  # 民族
     native_place = TextField(default=None)  # 籍贯
     dormitory_num = IntegerField()  # 住宿房间号
     dormitory_tel = CharField(20)  # 宿舍电话
+    home_address = TextField(default=None)  # 家庭住址
+    home_tel = CharField(20)  # 宿舍电话
     postcode = CharField(20)  # 邮编
     photo = TextField(default=None)  # 照片
     create_time = DateTimeField(null=False)  # 创建这条记录的时间
@@ -110,27 +112,3 @@ class StudentInfoModel:
 if __name__ == '__main__':
 
     pass
-
-    # database.create_table(StudentInfo)
-
-    # try:
-    #     lognode_edit = LognodeEditModel()
-    #     edit_msg = {
-    #         "lognode_id": "0000000000",
-    #         "edit_user": "liuchunhui_iwm",
-    #         "edit_content": "[{'field': 'lognodename', 'old': 'oldname', 'new': 'newname'},{ 'field': 'type', 'old': 'log', 'new': 'alert'}]",
-    #         "edit_remark": u"修改日志名称和日志类型"
-    #     }
-    #     print edit_msg
-    #     logging.info(edit_msg)
-    #     lognode_edit.create_edit_msg(edit_msg)
-    # except Exception as e:
-    #     print "主函数"
-    #     print e
-    # lognode_edit = LognodeEditModel()
-    # result = lognode_edit.get_edit_msg(lognodeid=None, approve_result=None, editmsgid=34)
-    # print 'result'
-    # for value in result:
-    #     print value
-    #
-    # lognode_edit.delete_edit_msg(54)

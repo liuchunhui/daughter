@@ -31,8 +31,9 @@ class StudentRelative(BaseModel):
     relation = CharField(50)  # 称谓
     name = CharField(50)  # 姓名
     workplace = CharField(100)  # 工作单位
+    politics_status = CharField(50)  # 政治面貌
     post = CharField(50)  # 职务
-    tel = CharField(20)  # 电话
+    tel = CharField(100)  # 电话
     create_time = DateTimeField()  # 创建时间
 
 

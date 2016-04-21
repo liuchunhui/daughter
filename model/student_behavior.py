@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from peewee import CharField
+from peewee import TextField
 from peewee import DateTimeField
 from peewee import ForeignKeyField
 from peewee import Model
@@ -8,6 +8,7 @@ from peewee import MySQLDatabase
 from config.config import Config
 
 import student_info
+import term
 
 
 Config.load('../config/server.json')
@@ -28,11 +29,8 @@ class StudentBehavior(BaseModel):
     """定义数据表"""
 
     student = ForeignKeyField(student_info.StudentInfo, related_name='behavior_student')
-    term = CharField(50)  # 奖励名称
-    time = DateTimeField()  # 奖励时间
-    title = CharField(50)  # 奖励名称
-    rank = CharField(20)  # 级别
-    organization =  CharField(100)  # 奖励单位
+    term = ForeignKeyField(term.Term, related_name='behavior_term')  # 学期
+    behavior = TextField()  # 表现情况
     create_time = DateTimeField()  # 创建时间
 
 
