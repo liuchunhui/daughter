@@ -55,9 +55,9 @@ class MajorModel:
         m = Major()
 
         if major is not None:
-            return m.select().where(Major.major == major)
+            return m.get(Major.major == major)
         else:
-            return None
+            return m.select()
 
     def update_major(self, id, data):
         if id is not None:
@@ -99,10 +99,10 @@ if __name__ == '__main__':
         major = MajorModel()
 
         # 创建
-        # data = {
-        #     'major': '12软件工程04'
-        # }
-        # major.create_major(data)
+        data = {
+            'major': 'English'
+        }
+        major.create_major(data)
 
         # 获取
         # data = major.get_major('12软件工程04')
@@ -119,7 +119,7 @@ if __name__ == '__main__':
         # major.update_major('1', data)
 
         # 删除
-        major.delete_major('1')
+        # major.delete_major('1')
 
         pass
     except Exception as e:

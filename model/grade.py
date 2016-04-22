@@ -54,9 +54,9 @@ class GradeModel:
         database.begin()
         g = Grade()
         if grade is not None:
-            return g.select().where(Grade.grade == grade)
+            return Grade().get(Grade.grade == grade)
         else:
-            return None
+            return g.select()
 
     def update_grade(self, id, data):
         if id is not None:
@@ -98,10 +98,10 @@ if __name__ == '__main__':
         grade = GradeModel()
 
         # 创建
-        # data = {
-        #     'grade': '12软件工程04'
-        # }
-        # grade.create_grade(data)
+        data = {
+            'grade': '2012'
+        }
+        grade.create_grade(data)
 
         # 获取
         # data = grade.get_grade('12软件工程04')
