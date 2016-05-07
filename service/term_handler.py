@@ -63,7 +63,7 @@ class TermHandler(tornado.web.RequestHandler):
             logging.error(traceback.format_exc())
             self.set_status(400)
             self.write(
-                    ErrorHandle.errorbody(1004, e))
+                    ErrorHandle.errorbody(1012, e))
 
     @run_on_executor
     def _post_term(self, term):
@@ -85,7 +85,7 @@ class TermHandler(tornado.web.RequestHandler):
             logging.error(traceback.format_exc())
             self.set_status(400)
             self.write(
-                    ErrorHandle.errorbody(1006, e))
+                    ErrorHandle.errorbody(1014, e))
 
     @run_on_executor
     def _put_term(self, id, term):
@@ -109,7 +109,7 @@ class TermHandler(tornado.web.RequestHandler):
             logging.error(traceback.format_exc())
             self.set_status(400)
             self.write(
-                    ErrorHandle.errorbody(1007, e))
+                    ErrorHandle.errorbody(1015, e))
 
     @run_on_executor
     def _delete_term(self, id):

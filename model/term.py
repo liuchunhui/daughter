@@ -54,17 +54,17 @@ class TermModel:
         database.commit()
         return result
 
-    def get_term(self, t=None):
-        return self._get_term(t)
+    def get_term(self, key=None):
+        return self._get_term(key)
 
-    def _get_term(self, t):
+    def _get_term(self, key):
         database.begin()
         term = Term()
 
-        if t is None:
+        if key is None:
             return self._json_terms(term.select())
         else:
-            return self._json_term(term.select().where(Term.term == t))
+            return self._json_terms(term.select().where(Term.term.contains(key)))
 
     def _json_terms(self, data):
 
@@ -77,13 +77,6 @@ class TermModel:
                 'term': d['term']
             })
         return result
-
-    def _json_term(self, data):
-
-        return {
-            'id': data.id,
-            'term': data.term
-        }
 
     def update_term(self, id, t):
         if id is not None:
