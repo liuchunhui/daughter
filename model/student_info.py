@@ -1,4 +1,9 @@
 # -*- coding: utf-8 -*-
+import sys
+import os
+service_path = os.path.join(
+        os.path.dirname(__file__), os.path.join("..", "config"))
+sys.path.append(service_path)
 
 from peewee import MySQLDatabase
 from peewee import Model
@@ -7,7 +12,8 @@ from peewee import DateTimeField
 from peewee import ForeignKeyField
 from peewee import TextField
 from peewee import IntegerField
-from config.config import Config
+from peewee import PrimaryKeyField
+from config import Config
 
 import datetime
 import grade
@@ -31,6 +37,7 @@ class BaseModel(Model):
 class StudentInfo(BaseModel):
     """个人信息　数据表"""
 
+    id = PrimaryKeyField()
     sid = CharField(20, null=False, unique=True)  # 学生ID
     name = CharField(50, null=False)  # 姓名
     sex = CharField(10, null=False)  # 性别

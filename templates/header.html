@@ -1,3 +1,51 @@
 {% block header %}
-<div>header</div>
+<nav class="navbar navbar-default" style="border-color: #434446" id="navbar" role="navigation">
+    <div class="container-fluid" style="background-color: #434446">
+        <div class="navbar-header">
+            <a class="navbar-brand" style="color: #fff" href="/index">学生管理系统</a>
+        </div>
+        <div class="collapse navbar-collapse">
+            <form class="navbar-form navbar-left" action="/total/query" method="get">
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="输入学生学号搜索..." name="filter">
+                </div>
+            </form>
+            <ul class="nav navbar-nav navbar-right minos-menu">
+                <style>
+                    .minos-menu>li>a {
+                        display: inline-block;
+                        padding-left: 10px;
+                        padding-right: 10px;
+                    }
+                </style>
+            </ul>
+        </div>
+    </div>
+</nav>
+<div class="g-sidebar-mini">
+    <div class="g-sidebar" style="background-color: #54585D">
+        <div class="g-side-menu">
+            <ul>
+                <li>
+                    <a href="/index">
+                        <i style="color: #e0dede" class="glyphicon glyphicon-home"></i>
+                        <span>首页</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/student">
+                        <i style="color: #e0dede" class="glyphicon glyphicon-lock"></i>
+                        <span>学生管理</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/grade">
+                        <i style="color: #e0dede" class="glyphicon glyphicon-plus"></i>
+                        <span>成绩管理</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
 {% end %}

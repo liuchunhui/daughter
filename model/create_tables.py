@@ -1,7 +1,12 @@
 # -*- coding: utf-8 -*-
+import sys
+import os
+service_path = os.path.join(
+        os.path.dirname(__file__), os.path.join("..", "config"))
+sys.path.append(service_path)
 
 from peewee import MySQLDatabase
-from config.config import Config
+from config import Config
 import grade
 import major
 import student_info
@@ -28,7 +33,7 @@ if __name__ == '__main__':
 
     # Create the tables.
     database.create_tables([
-        grade.Grade,
+        # grade.Grade,
         major.Major,
         student_info.StudentInfo,
         student_behavior.StudentBehavior,

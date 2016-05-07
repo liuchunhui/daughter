@@ -1,0 +1,14 @@
+{% block scroll %}
+<script>
+    window.onscroll = function(){
+        var pos = document.documentElement.scrollTop || document.body.scrollTop;
+        if (pos >= 50) {
+            $('.g-sidebar').css('position', 'fixed');
+            $('.g-sidebar').css('padding-top', '0px');
+        } else {
+            $('.g-sidebar').css('position', 'absolute');
+            $('.g-sidebar').css('padding-top', '50px');
+        }
+    }
+</script>
+{% end %}

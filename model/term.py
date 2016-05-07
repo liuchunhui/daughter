@@ -1,10 +1,17 @@
 # -*- coding: utf-8 -*-
+import sys
+import os
+service_path = os.path.join(
+        os.path.dirname(__file__), os.path.join("..", "config"))
+sys.path.append(service_path)
 
 from peewee import MySQLDatabase
 from peewee import Model
 from peewee import CharField
 from peewee import DateTimeField
-from config.config import Config
+from peewee import IntegerField
+from peewee import PrimaryKeyField
+from config import Config
 
 import datetime
 
@@ -26,6 +33,7 @@ class BaseModel(Model):
 class Term(BaseModel):
     """学期　数据表"""
 
+    id = PrimaryKeyField()
     term = CharField(50, null=False, index=True, unique=True)  # 学期
     create_time = DateTimeField(default=datetime.datetime.now)  # 创建这条记录的时间
     update_time = DateTimeField(default=datetime.datetime.now)  # 修改这条记录的时间
@@ -39,25 +47,43 @@ class TermModel:
     def create_term(self, data):
         return self._create_term(data)
 
-    @staticmethod
-    def _create_term(data):
+    def _create_term(self, data):
         database.begin()
         term = Term()
-        term.create(**data)
+        result = term.create(**data)
         database.commit()
+        return result
 
     def get_term(self, t=None):
         return self._get_term(t)
 
-    @staticmethod
-    def _get_term(t):
+    def _get_term(self, t):
         database.begin()
         term = Term()
 
         if t is None:
-            return term.select()
+            return self._json_terms(term.select())
         else:
-            return term.select().where(Term.term == t)
+            return self._json_term(term.select().where(Term.term == t))
+
+    def _json_terms(self, data):
+
+        result = []
+        for d in data:
+            d = d.__dict__['_data']
+
+            result.append({
+                'id': d['id'],
+                'term': d['term']
+            })
+        return result
+
+    def _json_term(self, data):
+
+        return {
+            'id': data.id,
+            'term': data.term
+        }
 
     def update_term(self, id, t):
         if id is not None:
@@ -65,8 +91,7 @@ class TermModel:
         else:
             return None
 
-    @staticmethod
-    def _update_term(id, t):
+    def _update_term(self, id, t):
         database.begin()
         date = datetime.datetime.now()
         term = Term.update(update_time= date, **t).where(Term.id == id)
@@ -81,8 +106,7 @@ class TermModel:
         else:
             return None
 
-    @staticmethod
-    def _delete_term(id):
+    def _delete_term(self, id):
         database.begin()
         term = Term()
         t = term.delete().where(Term.id == id)

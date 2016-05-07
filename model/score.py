@@ -1,4 +1,9 @@
 # -*- coding: utf-8 -*-
+import sys
+import os
+service_path = os.path.join(
+        os.path.dirname(__file__), os.path.join("..", "config"))
+sys.path.append(service_path)
 
 from peewee import MySQLDatabase
 from peewee import Model
@@ -6,7 +11,9 @@ from peewee import BooleanField
 from peewee import DateTimeField
 from peewee import ForeignKeyField
 from peewee import DoubleField
-from config.config import Config
+from peewee import IntegerField
+from peewee import PrimaryKeyField
+from config import Config
 
 import course
 import term
@@ -30,6 +37,7 @@ class BaseModel(Model):
 class Score(BaseModel):
     """成绩　数据表"""
 
+    id = PrimaryKeyField()
     student = ForeignKeyField(student_info.StudentInfo, related_name='score_student')
     course = ForeignKeyField(course.Course, related_name='score_course')  # 成绩所属课程
     term = ForeignKeyField(term.Term, related_name='score_term')  # 成绩所属学期

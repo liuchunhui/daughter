@@ -5,6 +5,9 @@ import tornado.web
 import api_handler
 import os
 
+import view_handler
+
+
 from tornado.options import define, options
 define("port", default=8080, help="run on the given port", type=int)
 
@@ -21,6 +24,7 @@ def main():
 
     handlers = []
     handlers.extend(api_handler.handler)
+    handlers.extend(view_handler.handler)
 
     app = tornado.web.Application(handlers, debug=True, **settings)
     http_server = tornado.httpserver.HTTPServer(app, max_buffer_size=1073741824)

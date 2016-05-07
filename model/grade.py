@@ -1,10 +1,18 @@
 # -*- coding: utf-8 -*-
 
+import sys
+import os
+service_path = os.path.join(
+        os.path.dirname(__file__), os.path.join("..", "config"))
+sys.path.append(service_path)
+
 from peewee import MySQLDatabase
 from peewee import Model
 from peewee import CharField
 from peewee import DateTimeField
-from config.config import Config
+from peewee import IntegerField
+from peewee import PrimaryKeyField
+from config import Config
 
 import datetime
 
@@ -25,7 +33,7 @@ class BaseModel(Model):
 
 class Grade(BaseModel):
     """年级　数据表"""
-
+    id = PrimaryKeyField()
     grade = CharField(20, null=False, index=True, unique=True)  # 年级
     create_time = DateTimeField(default=datetime.datetime.now)  # 创建这条记录的时间
     update_time = DateTimeField(default=datetime.datetime.now)  # 修改这条记录的时间
@@ -36,27 +44,38 @@ class GradeModel:
     def __init__(self):
         pass
 
-    def create_grade(self, data):
-        return self._create_grade(data)
+    def create_grade(self, grade):
+        return self._create_grade(grade=grade)
 
-    @staticmethod
-    def _create_grade(data):
+    def _create_grade(self, grade):
         database.begin()
-        grade = Grade()
-        grade.create(**data)
+        g = Grade()
+        result = g.create(**grade)
         database.commit()
+        return result
 
     def get_grade(self, grade=None):
         return self._get_grade(grade)
 
-    @staticmethod
-    def _get_grade(grade):
+    def _get_grade(self, grade):
         database.begin()
         g = Grade()
         if grade is not None:
-            return Grade().get(Grade.grade == grade)
+            return self._json_grades(g.get(Grade.grade.contains(grade)))
         else:
-            return g.select()
+            return self._json_grades(g.select())
+
+    def _json_grades(self, data):
+
+        result = []
+        for d in data:
+            d = d.__dict__['_data']
+
+            result.append({
+                'id': d['id'],
+                'grade': d['grade']
+            })
+        return result
 
     def update_grade(self, id, data):
         if id is not None:
@@ -64,8 +83,7 @@ class GradeModel:
         else:
             return None
 
-    @staticmethod
-    def _update_grade(id, data):
+    def _update_grade(self, id, data):
         database.begin()
         date = datetime.datetime.now()
         grade = Grade.update(
@@ -83,8 +101,7 @@ class GradeModel:
         else:
             return None
 
-    @staticmethod
-    def _delete_grade(id):
+    def _delete_grade(self, id):
         database.begin()
         grade = Grade()
         g = grade.delete().where(Grade.id == id)
@@ -97,15 +114,16 @@ if __name__ == '__main__':
     try:
         grade = GradeModel()
 
-        # 创建
-        data = {
-            'grade': '2012'
-        }
-        grade.create_grade(data)
+        # # 创建
+        # data = {
+        #     'grade': '12软件工程04'
+        # }
+        # grade.create_grade(data)
 
         # 获取
         # data = grade.get_grade('12软件工程04')
         # print '_______'
+        # print data
         # for d in data:
         #     d = d.__dict__['_data']
         #     print d['grade']

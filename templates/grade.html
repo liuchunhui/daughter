@@ -1,0 +1,25 @@
+{% extends "main.html" %}
+{% block body %}
+<script src="{{static_url('js/grade.js')}}"></script>
+<div id="main_content" class="container" ng-app="GradeMdl" ng-controller="GradeCtr" ng-init="init()">
+    <!--<div id="indexbar">-->
+        <!--<ol style="background-color: #d8d8d8" class="breadcrumb">-->
+            <!--<li>-->
+                <!--<i class="glyphicon glyphicon-home"></i>-->
+                <!--<a ng-bind="nav.index" ng-href="//nav.indexLink//" target="_self"></a>-->
+            <!--</li>-->
+        <!--</ol>-->
+    <!--</div>-->
+    <!--<div class="page-header">-->
+        <!--<h3>成绩管理</h3>-->
+    <!--</div>-->
+
+    <!-- Nav tabs -->
+    <ul class="nav nav-tabs nav-justified" role="tablist">
+        <li role="presentation"><a ng-href="//url.student//" role="tab" data-toggle="tab">学生成绩管理</a></li>
+        <li role="presentation"><a ng-href="//url.class//" role="tab" data-toggle="tab">班级成绩管理</a></li>
+        <li role="presentation"><a ng-href="//url.fail//" role="tab" data-toggle="tab">补考学生管理</a></li>
+    </ul>
+    <div ui-view style="background-color: #fff"> view </div>
+</div>
+{% end %}

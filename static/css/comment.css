@@ -1,0 +1,25 @@
+/* 整体背景色 */
+.mainbkgrd-color {
+	background-color: #F8F8F8;
+}
+
+.whitebkgrd-color {
+	background-color: #FFFFFF;
+}
+.minos-panel {
+    margin-bottom: 20px;
+    padding: 10px 20px;
+    background-color: #fff;
+    border-radius: 2px;
+    overflow-x: hidden;
+    /*overflow-y: scroll;*/
+}
+i.btn_coltips {
+    display: block;
+    width: 14px;
+    height: 14px;
+    cursor: pointer;
+    float: left;
+    margin: 6px 0 0 3px;
+    background: url(../images/icon_qs.png) no-repeat;
+}

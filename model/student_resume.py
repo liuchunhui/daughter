@@ -1,12 +1,19 @@
 # -*- coding: utf-8 -*-
+import sys
+import os
+service_path = os.path.join(
+        os.path.dirname(__file__), os.path.join("..", "config"))
+sys.path.append(service_path)
 
 from peewee import CharField
 from peewee import DateTimeField
 from peewee import ForeignKeyField
 from peewee import Model
 from peewee import MySQLDatabase
-from config.config import Config
-from model import student_info
+from peewee import IntegerField
+from peewee import PrimaryKeyField
+from config import Config
+import student_info
 
 import datetime
 
@@ -27,6 +34,7 @@ class BaseModel(Model):
 class StudentResume(BaseModel):
     """个人简历　数据表"""
 
+    id = PrimaryKeyField()
     student = ForeignKeyField(student_info.StudentInfo, related_name='resume_student')
     start_time = DateTimeField()  # 开始时间
     end_time = DateTimeField()  # 结束时间

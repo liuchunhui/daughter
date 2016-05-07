@@ -1,0 +1,205 @@
+{% extends "main.html" %}
+{% block body %}
+<script src="{{static_url('js/student_info.js')}}"></script>
+<div id="main_content" class="container" ng-app="StudentInfoMdl" ng-controller="StudentInfoCtr" ng-init="init()">
+    <!--<div id="indexbar">-->
+        <!--<ol style="background-color: #d8d8d8" class="breadcrumb">-->
+            <!--<li>-->
+                <!--<i class="glyphicon glyphicon-home"></i>-->
+                <!--<a ng-bind="nav.index" ng-href="//nav.indexLink//" target="_self"></a>-->
+            <!--</li>-->
+        <!--</ol>-->
+    <!--</div>-->
+    <div class="row">
+        <div class="page-header">
+            <h3>学生信息</h3>
+        </div>
+        <div class="col-md-12">
+            <div class="page-header">
+                <h4 style="display: inline-block;">基本信息</h4>
+                <button type="button" class="btn btn-primary btn-xs">编辑</button>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <dl class="dl-horizontal">
+                <dt>学号：</dt>
+                <dd ng-bind="log.id"></dd>
+            </dl>
+            <dl class="dl-horizontal">
+                <dt>姓名：</dt>
+                <dd ng-bind="log.info.productlinepath"></dd>
+            </dl>
+            <dl class="dl-horizontal">
+                <dt>性别：</dt>
+                <dd ng-bind="log.info.lognodename"></dd>
+            </dl>
+            <dl class="dl-horizontal">
+                <dt>出生日期：</dt>
+                <dd ng-bind="log.id"></dd>
+            </dl>
+            <dl class="dl-horizontal">
+                <dt>班级专业：</dt>
+                <dd ng-bind="log.info.productlinepath"></dd>
+            </dl>
+            <dl class="dl-horizontal">
+                <dt>家庭出身：</dt>
+                <dd ng-bind="log.info.lognodename"></dd>
+            </dl>
+            <dl class="dl-horizontal">
+                <dt>本人成分：</dt>
+                <dd ng-bind="log.id"></dd>
+            </dl>
+        </div>
+        <div class="col-md-4">
+
+            <dl class="dl-horizontal">
+                <dt>文化程度：</dt>
+                <dd ng-bind="log.info.productlinepath"></dd>
+            </dl>
+            <dl class="dl-horizontal">
+                <dt>政治面貌：</dt>
+                <dd ng-bind="log.info.productlinepath"></dd>
+            </dl>
+            <dl class="dl-horizontal">
+                <dt>民族：</dt>
+                <dd ng-bind="log.info.lognodename"></dd>
+            </dl>
+            <dl class="dl-horizontal">
+                <dt>籍贯：</dt>
+                <dd ng-bind="log.id"></dd>
+            </dl>
+            <dl class="dl-horizontal">
+                <dt>住宿房间号：</dt>
+                <dd ng-bind="log.info.productlinepath"></dd>
+            </dl>
+            <dl class="dl-horizontal">
+                <dt>宿舍电话：</dt>
+                <dd ng-bind="log.info.lognodename"></dd>
+            </dl>
+            <dl class="dl-horizontal">
+                <dt>家庭住址：</dt>
+                <dd ng-bind="log.id"></dd>
+            </dl>
+        </div>
+        <div class="col-md-4">
+            <dl class="dl-horizontal">
+                <dt>照片：</dt>
+                <dd ng-bind="log.id"></dd>
+            </dl>
+
+            <dl class="dl-horizontal">
+                <dt>家庭电话：</dt>
+                <dd ng-bind="log.id"></dd>
+            </dl>
+            <dl class="dl-horizontal">
+                <dt>邮编：</dt>
+                <dd ng-bind="log.info.productlinepath"></dd>
+            </dl>
+        </div>
+        <div class="col-md-12">
+            <div class="page-header">
+                <h4 style="display: inline-block;">个人简历</h4>
+                <button type="button" class="btn btn-primary btn-xs">编辑</button>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <dl class="dl-horizontal">
+                <dt>学习工作单位：</dt>
+                <dd ng-bind="log.id"></dd>
+            </dl>
+            <dl class="dl-horizontal">
+                <dt>开始时间：</dt>
+                <dd ng-bind="log.info.productlinepath"></dd>
+            </dl>
+        </div>
+        <div class="col-md-4">
+            <dl class="dl-horizontal">
+                <dt>职务：</dt>
+                <dd ng-bind="log.info.productlinepath"></dd>
+            </dl>
+
+            <dl class="dl-horizontal">
+                <dt>结束时间：</dt>
+                <dd ng-bind="log.info.lognodename"></dd>
+            </dl>
+        </div>
+        <div class="col-md-4">
+            <dl class="dl-horizontal">
+                <dt>证明人：</dt>
+                <dd ng-bind="log.id"></dd>
+            </dl>
+        </div>
+        <div class="col-md-12">
+            <div class="page-header">
+                <h4 style="display: inline-block;">家庭成员</h4>
+                <button type="button" class="btn btn-success btn-xs">添加</button>
+            </div>
+        </div>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <td>姓名</td>
+                    <td>称谓</td>
+                    <td>身份证号</td>
+                    <td>政治面貌</td>
+                    <td>工作单位</td>
+                    <td>职务</td>
+                    <td>电话</td>
+                    <td>操作</td>
+                </tr>
+            </thead>
+        </table>
+
+        <div class="col-md-12">
+            <div class="page-header">
+                <h4 style="display: inline-block;">奖励</h4>
+                <button type="button" class="btn btn-success btn-xs">添加</button>
+            </div>
+        </div>
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <td>名称</td>
+                <td>级别</td>
+                <td>时间</td>
+                <td>奖励单位</td>
+                <td>操作</td>
+            </tr>
+            </thead>
+        </table>
+
+        <div class="col-md-12">
+            <div class="page-header">
+                <h4 style="display: inline-block;">处分</h4>
+                <button type="button" class="btn btn-success btn-xs">添加</button>
+            </div>
+        </div>
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <td>时间</td>
+                <td>级别</td>
+                <td>原因</td>
+                <td>操作</td>
+            </tr>
+            </thead>
+        </table>
+
+        <div class="col-md-12">
+            <div class="page-header">
+                <h4 style="display: inline-block;">在校表现</h4>
+                <button type="button" class="btn btn-success btn-xs">添加</button>
+            </div>
+        </div>
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <td>学期</td>
+                <td>情况</td>
+                <td>操作</td>
+            </tr>
+            </thead>
+        </table>
+    </div>
+</div>
+{% end %}

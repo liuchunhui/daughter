@@ -1,11 +1,18 @@
 # -*- coding: utf-8 -*-
+import sys
+import os
+service_path = os.path.join(
+        os.path.dirname(__file__), os.path.join("..", "config"))
+sys.path.append(service_path)
 
 from peewee import TextField
 from peewee import DateTimeField
 from peewee import ForeignKeyField
 from peewee import Model
 from peewee import MySQLDatabase
-from config.config import Config
+from peewee import IntegerField
+from peewee import PrimaryKeyField
+from config import Config
 
 import student_info
 import term
@@ -29,6 +36,7 @@ class BaseModel(Model):
 class StudentBehavior(BaseModel):
     """在校表现　数据表"""
 
+    id = PrimaryKeyField()
     student = ForeignKeyField(student_info.StudentInfo, related_name='behavior_student')
     term = ForeignKeyField(term.Term, related_name='behavior_term')  # 学期
     behavior = TextField()  # 表现情况

@@ -1,11 +1,17 @@
 {% extends "main.html" %}
 {% block body %}
-<div>This is body</div>
-<script>
-    var a = {n:1};
-    b = a;
-    a.x = a = {n:2};
-    console.log(a.x);
-    console.log(b.x);
-</script>
+<script src="{{static_url('js/index.js')}}"></script>
+<div id="main_content" class="container" ng-app="indexMdl" ng-controller="indexCtr" ng-init="init()">
+    <div id="indexbar">
+        <ol style="background-color: #d8d8d8" class="breadcrumb">
+            <li>
+                <i class="glyphicon glyphicon-home"></i>
+                <a ng-bind="nav.index" ng-href="//nav.indexLink//" target="_self"></a>
+            </li>       
+        </ol>
+    </div>
+    <div class="row">
+        首页
+    </div>
+</div>
 {% end %}
