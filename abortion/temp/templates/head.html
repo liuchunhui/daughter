@@ -1,0 +1,30 @@
+{% block head %}
+<link type="text/css" rel="stylesheet" href="{{static_url('css/semantic.min.css')}}" />
+<link type="text/css" rel="stylesheet/less" href="{{static_url('css/common.less')}}" />
+<link type="text/css" rel="stylesheet" href="{{static_url('css/theme.css')}}" />
+
+<!--theme-->
+<link type="text/css" rel="stylesheet" href="{{static_url('css/normalize.css')}}" />
+<link type="text/css" rel="stylesheet" href="{{static_url('css/component.css')}}" />
+
+<script type="text/javascript" src="{{static_url('js/lib/jquery.min.js')}}"></script>
+<script type="text/javascript" src="{{static_url('js/lib/semantic.min.js')}}"></script>
+
+<!--theme-->
+<script type="text/javascript" src="{{static_url('js/lib/modernizr.custom.js')}}"></script>
+
+<script type="text/javascript" src="{{static_url('js/lib/vue.js')}}"></script>
+
+<script>
+    // 修改 Vue 模板标签
+    if ( "undefined" != typeof Vue ) {
+        // 修改文本插值的定界符。
+        // ES6 模板字符串
+        Vue.config.delimiters = ['${', '}'];
+        // 修改原生 HTML 插值的定界符。默认值： ["{{{", "}}}"]
+        // make it look more dangerous
+        Vue.config.unsafeDelimiters = ['{!!', '!!}'];
+    }
+</script>
+
+{% end %}

@@ -1,0 +1,40 @@
+{% extends "main.html" %}
+{% block body %}
+<div style="margin-top: 60px">
+    <div class="ui right aligned category search">
+        <div class="ui icon input">
+            <input class="prompt" type="text" placeholder="输入学号查询">
+            <i class="search icon"></i>
+        </div>
+        <div class="results">
+            <table class="ui basic table">
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Status</th>
+                    <th>Notes</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>约翰</td>
+                    <td>已审核</td>
+                    <td>None</td>
+                </tr>
+                <tr>
+                    <td>杰米</td>
+                    <td>已审核</td>
+                    <td>必须回答</td>
+                </tr>
+                <tr>
+                    <td>吉尔</td>
+                    <td>Denied</td>
+                    <td>None</td>
+                </tr>
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+</div>
+{% end %}

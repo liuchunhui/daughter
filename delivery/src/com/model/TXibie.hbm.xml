@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="com.model.TXibie" table="t_xibie">
+        <id name="xibieId" type="java.lang.Integer">
+            <column name="xibie_id" />
+            <generator class="increment" />
+        </id>
+        <property name="xibieBianhao" type="java.lang.String">
+            <column name="xibie_bianhao" length="50" />
+        </property>
+        <property name="xibieName" type="java.lang.String">
+            <column name="xibie_name" length="50" />
+        </property>
+        <property name="xibieJianjie" type="java.lang.String">
+            <column name="xibie_jianjie" length="3000" />
+        </property>
+        <property name="xibieDel" type="java.lang.String">
+            <column name="xibie_del" length="50" />
+        </property>
+        <property name="xuyuanId" type="java.lang.Integer">
+            <column name="xuyuanId" />
+        </property>
+        <property name="xibieOne1" type="java.lang.String">
+            <column name="xibie_one1" length="50" />
+        </property>
+        <property name="xibieOne2" type="java.lang.String">
+            <column name="xibie_one2" length="50" />
+        </property>
+        <property name="xibieOne3" type="java.lang.String">
+            <column name="xibie_one3" length="50" />
+        </property>
+        <property name="xibieOne4" type="java.lang.String">
+            <column name="xibie_one4" length="50" />
+        </property>
+        <property name="xibieOne5" type="java.lang.Integer">
+            <column name="xibie_one5" />
+        </property>
+        <property name="xibieOne6" type="java.lang.Integer">
+            <column name="xibie_one6" />
+        </property>
+        <property name="xibieOne7" type="java.util.Date">
+            <column name="xibie_one7" length="23" />
+        </property>
+        <property name="xibieOne8" type="java.util.Date">
+            <column name="xibie_one8" length="23" />
+        </property>
+    </class>
+</hibernate-mapping>

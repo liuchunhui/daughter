@@ -1,0 +1,12 @@
+{% block foot %}
+<script type="text/javascript" src="{{static_url('js/lib/classie.js')}}"></script>
+<script type="text/javascript" src="{{static_url('js/lib/gnmenu.js')}}"></script>
+<script>
+    new gnMenu( document.getElementById( 'gn-menu' ) );
+</script>
+
+
+<!-- 业务逻辑 -->
+<script type="text/javascript" src="{{static_url('js/index.js')}}"></script>
+
+{% end %}
