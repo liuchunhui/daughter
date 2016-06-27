@@ -11,3 +11,6 @@
 .idea
 *.py[cod]
 delivery/out/*
+girl/.idea
+girl/out
+girl/girl.iml
