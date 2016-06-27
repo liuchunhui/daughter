@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>学生信息管理系统</title>
+    <link rel="stylesheet" type="text/css" href="/static/css/bootstrap.min.css" />
+    <script type="text/javascript" src="/static/js/jquery.min.js"></script>
+    <script type="text/javascript" src="/static/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/static/js/controller/common.js"></script>
+</head>
+<body id="adminStudent">
+<h2>
+    学生基本信息列表
+    <button type="button" class="btn btn-success btn-xs" data-toggle="modal"
+        v-on:click="addClick">添加</button>
+</h2>
+<br />
+<div class="col-lg-4" style="width: 35%;margin-left: 65%;">
+    <div class="input-group">
+        <input type="text" class="form-control" v-model="filterKey" />
+            <span class="input-group-btn">
+                <button class="btn btn-primary" type="button">查询</button>
+            </span>
+    </div>
+</div>
+<br />
+<table class="table table-striped table-hover
+        table-bordered table-condensed" style="width: 98%; margin: auto;">
+    <tr>
+        <th>编号</th>
+        <th>姓名</th>
+        <th>性别</th>
+        <th>所属专业</th>
+        <th>所属专业</th>
+        <th>所属班级</th>
+        <th>出生年月</th>
+        <th>电话</th>
+        <th>邮箱</th>
+        <th>家庭住址</th>
+        <th>操作</th>
+    </tr>
+    <tr v-for="s in students | filterBy filterKey ">
+        <td v-cloak>{{ s.number }}</td>
+        <td v-cloak>{{ s.name }}</td>
+        <td v-cloak>{{ s.sex }}</td>
+        <td v-cloak>{{ s.grade.profession.college.name }}</td>
+        <td v-cloak>{{ s.grade.profession.name }}</td>
+        <td v-cloak>{{ s.grade.name }}</td>
+        <td v-cloak>{{ s.birth }}</td>
+        <td v-cloak>{{ s.tel }}</td>
+        <td v-cloak>{{ s.email }}</td>
+        <td v-cloak>{{ s.address}}</td>
+        <td>
+            <span class="glyphicon glyphicon-edit" style="color: #337ab7;" title="修改" v-on:click="editClick($index)"></span>&nbsp;
+            <span class="glyphicon glyphicon-remove" style="color: #D9534F;" title="删除" v-on:click="deleteStudent($index)"></span>
+        </td>
+    </tr>
+</table>
+
+<!-- 添加信息模态框 -->
+<div class="modal fade" id="addStudent" tabindex="-1" role="dialog" aria-labelledby="add">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="add">添加学生信息</h4>
+            </div>
+            <form action="" method="post" class="form-horizontal">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="collegeNumAdd" class="col-sm-2 control-label">班级名称</label>
+                        <div class="col-sm-10">
+                            <select class="form-control" id="collegeNumAdd" v-model="student.gradeNum" required>
+                                <option v-for="g in grades" value={{g.number}}>{{g.name}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="numberAdd" class="col-sm-2 control-label">学生编号</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="numberAdd" name="number"
+                                   v-model="student.number" required/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="nameAdd" class="col-sm-2 control-label">学生姓名</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="nameAdd" name="name"
+                                   v-model="student.name" required/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="sexAdd" class="col-sm-2 control-label">学生性别</label>
+                        <div class="col-sm-10">
+                            <select class="form-control" id="sexAdd" v-model="student.sex" required>
+                                <option value="男">男</option>
+                                <option value="女">女</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="birthAdd" class="col-sm-2 control-label">出生年月日</label>
+                        <div class="col-sm-10">
+                            <input type="date" class="form-control" id="birthAdd" name="birth"
+                                   v-model="student.birth" required />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="telAdd" class="col-sm-2 control-label">联系电话</label>
+                        <div class="col-sm-10">
+                            <input type="tel" class="form-control" id="telAdd" name="tel"
+                                   v-model="student.tel" required />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="editAdd" class="col-sm-2 control-label">邮件</label>
+                        <div class="col-sm-10">
+                            <input type="email" class="form-control" id="editAdd" name="email"
+                                   v-model="student.email" required />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="addressAdd" class="col-sm-2 control-label">家庭住址</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="addressAdd" name="address"
+                                   v-model="student.address" required />
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-primary" v-on:click="addStudent">添加</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- 修改信息模态框 -->
+<div class="modal fade" id="editStudent" tabindex="-1" role="dialog" aria-labelledby="edit">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="edit">修改学生信息</h4>
+            </div>
+            <form action="" method="post" class="form-horizontal">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="collegeNumEdit" class="col-sm-2 control-label">班级名称</label>
+                        <div class="col-sm-10">
+                            <select class="form-control" id="collegeNumEdit" v-model="student.gradeNum" required>
+                                <option v-for="g in grades" value={{g.number}}>{{g.name}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="numberEdit" class="col-sm-2 control-label">学生编号</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="numberEdit" name="number"
+                                   v-model="student.number" required/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="nameEdit" class="col-sm-2 control-label">学生姓名</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="nameEdit" name="name"
+                                   v-model="student.name" required/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="sexEdit" class="col-sm-2 control-label">学生性别</label>
+                        <div class="col-sm-10">
+                            <select class="form-control" id="sexEdit" v-model="student.sex" required>
+                                <option value="男">男</option>
+                                <option value="女">女</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="birthEdit" class="col-sm-2 control-label">出生年月日</label>
+                        <div class="col-sm-10">
+                            <input type="date" class="form-control" id="birthEdit" name="birth"
+                                   v-model="student.birth" required />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="telEdit" class="col-sm-2 control-label">联系电话</label>
+                        <div class="col-sm-10">
+                            <input type="tel" class="form-control" id="telEdit" name="tel"
+                                   v-model="student.tel" required />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="emailEdit" class="col-sm-2 control-label">邮件</label>
+                        <div class="col-sm-10">
+                            <input type="email" class="form-control" id="emailEdit" name="email"
+                                   v-model="student.email" required />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="addressEdit" class="col-sm-2 control-label">家庭住址</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="addressEdit" name="address"
+                                   v-model="student.address" required />
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                        <button type="button" class="btn btn-primary" v-on:click="editStudent">修改</button>
+                    </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="/static/js/vue.js"></script>
+<script type="text/javascript" src="/static/js/controller/admin.student.js"></script>
+</body>
+</html>

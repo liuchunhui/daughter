@@ -1,0 +1,78 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>学生信息管理系统</title>
+    <meta charset="utf-8" />
+    <link href="/static/css/semantic.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="/static/js/jquery.min.js" ></script>
+    <script type="text/javascript" src="/static/js/semantic.min.js" ></script>
+    <script>
+        $(document).ready(function() {
+            $('.ui.vertical.menu a.item')
+                .on('click', function() {
+                    $(this)
+                        .addClass('active')
+                        .siblings()
+                        .removeClass('active');
+                });
+        });
+        function setUrl () {
+            var param = window.location.search;
+            var number = param.substr(param.indexOf("=")+1);
+
+            var index = "/teacher/index/page?number=" + number;
+            var syllabus = "/teacher/syllabus/page?number=" + number;
+            var score = "/teacher/score/page?number=" + number;
+            var annunciate = "/teacher/annunciate/page?number=" + number;
+            var info = "/teacher/info/page?number=" + number;
+            var password = "/teacher/password/page?number=" + number;
+
+            document.getElementById('index').href = index;
+            document.getElementById('syllabus').href = syllabus;
+            document.getElementById('score').href = score;
+            document.getElementById('annunciate').href = annunciate;
+            document.getElementById('info').href = info;
+            document.getElementById('password').href = password;
+        }
+    </script>
+</head>
+<body style="background-color: #f2f2f2;" onload="setUrl()">
+    <div class="ui vertical menu" style="width: 175px; margin-top: 5px;">
+        <a href="#" class="item active" target="contain" id="index">
+            <span style="margin-left: 7px;">
+                <i class="home icon"></i>首页
+            </span>
+        </a>
+        <a href="#" class="item" target="contain" id="syllabus">
+            <span style="margin-left: 7px;">
+                <i class="calendar icon"></i>课程表信息查看
+            </span>
+        </a>
+        <a href="#" class="item" target="contain" id="score">
+            <span style="margin-left: 7px;">
+                <i class="browser icon"></i>成绩信息管理
+            </span>
+        </a>
+        <a href="#" class="item" target="contain" id="annunciate">
+            <span style="margin-left: 7px;">
+                <i class="announcement icon"></i>公告信息查看
+            </span>
+        </a>
+        <a href="#" class="item" target="contain" id="info">
+            <span style="margin-left: 7px;">
+                <i class="settings icon"></i>个人信息管理
+            </span>
+        </a>
+        <a href="#" class="item" target="contain" id="password">
+            <span style="margin-left: 7px;">
+                <i class="setting icon"></i>修改密码
+            </span>
+        </a>
+        <a href="/login/page" class="item" target="_top">
+            <span style="margin-left: 7px;">
+                <i class="power icon"></i>安全退出
+            </span>
+        </a>
+    </div>
+</body>
+</html>

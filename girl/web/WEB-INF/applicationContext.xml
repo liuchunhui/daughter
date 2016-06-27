@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="
+            http://www.springframework.org/schema/beans
+            http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+            http://www.springframework.org/schema/aop
+            http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+            http://www.springframework.org/schema/context
+            http://www.springframework.org/schema/context/spring-context-3.0.xsd
+            http://www.springframework.org/schema/jee
+            http://www.springframework.org/schema/jee/spring-jee-3.0.xsd
+            http://www.springframework.org/schema/tx
+            http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+       ">
+
+    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
+          destroy-method="close">
+        <!-- 指定链接数据库的驱动-->
+        <property name="driverClass" value="com.mysql.jdbc.Driver"/>
+
+        <!-- 指定链接数据库的 url -->
+        <property name="jdbcUrl" value="jdbc:mysql://localhost:3306/student_manage?useUnicode=true&amp;characterEncoding=utf8"/>
+        <!-- 指定链接数据库的用户名 -->
+        <property name="user" value="root"/>
+        <!-- 指定链接数据库的密码 -->
+        <property name="password" value="root"/>
+
+        <!-- 指定链接数据库连接池的最大连接数 -->
+        <property name="maxPoolSize" value="40"/>
+        <!-- 指定链接数据库连接池的最小连接数 -->
+        <property name="minPoolSize" value="1"/>
+        <!-- 指定链接数据库连接池的初始化连接数 -->
+        <property name="initialPoolSize" value="1"/>
+
+        <!-- sae 建议 -->
+        <property name="idleConnectionTestPeriod" value="10"/>
+        <!-- 指定链接数据库连接池的最大空闲时间 -->
+        <property name="maxIdleTime" value="10"/>
+    </bean>
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+        <property name="dataSource" ref="dataSource" />
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+                <prop key="hibernate.hbm2ddl.auto">update</prop>
+            </props>
+        </property>
+        <property name="packagesToScan">
+            <list>
+                <value>com.model</value>
+            </list>
+        </property>
+    </bean>
+
+    <!-- 管理员 -->
+    <bean id="admin" class="com.model.Admin" />
+    <bean id="adminDao" class="com.dao.AdminDao">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    <bean id="adminService" class="com.service.AdminService">
+        <property name="admin" ref="admin"/>
+        <property name="adminDao" ref="adminDao"/>
+    </bean>
+    <!-- 学院 -->
+    <bean id="college" class="com.model.College" />
+    <bean id="collegeDao" class="com.dao.CollegeDao">
+        <property name="sessionFactory" ref="sessionFactory" />
+    </bean>
+    <bean id="collegeService" class="com.service.CollegeService">
+        <property name="college" ref="college"/>
+        <property name="collegeDao" ref="collegeDao" />
+    </bean>
+    <!-- 公告 -->
+    <bean id="annunciate" class="com.model.Annunciate" />
+    <bean id="annunciateDao" class="com.dao.AnnunciateDao">
+        <property name="sessionFactory" ref="sessionFactory" />
+    </bean>
+    <bean id="annunciateService" class="com.service.AnnunciateService">
+        <property name="annunciate" ref="annunciate" />
+        <property name="annunciateDao" ref="annunciateDao" />
+    </bean>
+    <!-- 专业 -->
+    <bean id="profession" class="com.model.Profession" />
+    <bean id="professionDao" class="com.dao.ProfessionDao">
+        <property name="sessionFactory" ref="sessionFactory" />
+    </bean>
+    <bean id="professionService" class="com.service.ProfessionService">
+        <property name="college" ref="college" />
+        <property name="collegeDao" ref="collegeDao" />
+        <property name="profession" ref="profession" />
+        <property name="professionDao" ref="professionDao" />
+    </bean>
+    <bean id="professionController" class="com.controller.ProfessionController">
+        <property name="professionService" ref="professionService" />
+    </bean>
+    <!-- 课程 -->
+    <bean id="course" class="com.model.Course" />
+    <bean id="courseDao" class="com.dao.CourseDao">
+        <property name="sessionFactory" ref="sessionFactory" />
+    </bean>
+    <bean id="courseService" class="com.service.CourseService">
+        <property name="course" ref="course" />
+        <property name="courseDao" ref="courseDao" />
+    </bean>
+    <bean id="courseController" class="com.controller.CourseController">
+        <property name="courseService" ref="courseService" />
+    </bean>
+    <!-- 班级 -->
+    <bean id="grade" class="com.model.Grade" />
+    <bean id="gradeDao" class="com.dao.GradeDao">
+        <property name="sessionFactory" ref="sessionFactory" />
+    </bean>
+    <bean id="gradeService" class="com.service.GradeService">
+        <property name="grade" ref="grade" />
+        <property name="gradeDao" ref="gradeDao" />
+        <property name="profession" ref="profession" />
+        <property name="professionDao" ref="professionDao" />
+    </bean>
+    <!-- 学生 -->
+    <bean id="student" class="com.model.Student" />
+    <bean id="studentDao" class="com.dao.StudentDao">
+        <property name="sessionFactory" ref="sessionFactory" />
+    </bean>
+    <bean id="studentService" class="com.service.StudentService">
+        <property name="student" ref="student" />
+        <property name="studentDao" ref="studentDao" />
+        <property name="grade" ref="grade" />
+        <property name="gradeDao" ref="gradeDao" />
+    </bean>
+    <!-- 教师 -->
+    <bean id="teacher" class="com.model.Teacher" />
+    <bean id="teacherDao" class="com.dao.TeacherDao">
+        <property name="sessionFactory" ref="sessionFactory" />
+    </bean>
+    <bean id="teacherService" class="com.service.TeacherService">
+        <property name="teacher" ref="teacher"/>
+        <property name="teacherDao" ref="teacherDao" />
+        <property name="college" ref="college" />
+        <property name="collegeDao" ref="collegeDao" />
+    </bean>
+    <!-- 课程表 -->
+    <bean id="syllabus" class="com.model.Syllabus"/>
+    <bean id="syllabusDao" class="com.dao.SyllabusDao">
+        <property name="sessionFactory" ref="sessionFactory" />
+    </bean>
+    <bean id="syllabusService" class="com.service.SyllabusService">
+        <property name="course" ref="course" />
+        <property name="courseDao" ref="courseDao" />
+        <property name="grade" ref="grade" />
+        <property name="gradeDao" ref="gradeDao" />
+        <property name="teacher" ref="teacher" />
+        <property name="teacherDao" ref="teacherDao" />
+        <property name="syllabus" ref="syllabus" />
+        <property name="syllabusDao" ref="syllabusDao" />
+        <property name="student" ref="student" />
+        <property name="studentDao" ref="studentDao" />
+    </bean>
+    <!-- 成绩 -->
+    <bean id="score" class="com.model.Score" />
+    <bean id="scoreDao" class="com.dao.ScoreDao">
+        <property name="sessionFactory" ref="sessionFactory" />
+    </bean>
+    <bean id="scoreService" class="com.service.ScoreService">
+        <property name="syllabus" ref="syllabus" />
+        <property name="syllabusDao" ref="syllabusDao" />
+        <property name="score" ref="score" />
+        <property name="scoreDao" ref="scoreDao" />
+        <property name="student" ref="student" />
+        <property name="studentDao" ref="studentDao" />
+        <property name="teacher" ref="teacher"/>
+        <property name="teacherDao" ref="teacherDao"/>
+    </bean>
+
+
+    <!-- 配置 Hibernate 的局部事务管理器，使用 HibernateTransactionManager 类 -->
+    <!-- 该类实现 PlatformTransactionManager 接口，是针对 Hibernate 的特定实现 -->
+    <bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+        <!-- 配置 HibernateTransactionManager 时需要注入 SessionFactory 的引用 -->
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <!-- 配置事务增强处理 Bean，指定事务管理器 -->
+    <tx:advice id="txAdvice" transaction-manager="transactionManager">
+        <!-- 用于配置详细的事务语义 -->
+        <tx:attributes>
+            <!-- 所有以 'get' 开头的方法是 read-only 的 -->
+            <tx:method name="get*"/>
+            <!-- 其他方法使用默认的事务配置 -->
+            <tx:method name="*"/>
+        </tx:attributes>
+    </tx:advice>
+    <!--<tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true"/>-->
+    <aop:config>
+        <!-- 配置一个切入点 -->
+        <aop:pointcut id="ajaxPointcut"
+          expression="bean(adminService)||bean(collegeService)||bean(annunciateService)
+              ||bean(professionService)||bean(courseService) || bean(gradeService)
+              || bean(teacherService) || bean(studentService) || bean(syllabusService)
+              || bean(scoreService)" />
+        <!-- 指定在 leePointcut 切入点应用 txAdvice 事务增强处理 -->
+        <aop:advisor advice-ref="txAdvice" pointcut-ref="ajaxPointcut"/>
+    </aop:config>
+</beans>

@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>学生信息管理系统</title>
+    <link rel="stylesheet" type="text/css" href="/static/css/bootstrap.min.css" />
+    <script type="text/javascript" src="/static/js/jquery.min.js"></script>
+    <script type="text/javascript" src="/static/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/static/js/controller/common.js"></script>
+</head>
+<body id="adminProfession">
+    <h2>
+        专业基本信息列表
+        <button type="button" class="btn btn-success btn-xs" data-toggle="modal"
+            v-on:click="addClick">添加</button>
+    </h2>
+    <br />
+    <div class="col-lg-4" style="width: 35%;margin-left: 65%;">
+        <div class="input-group">
+            <input type="text" class="form-control" v-model="filterKey" />
+            <span class="input-group-btn">
+                <button class="btn btn-primary" type="button">查询</button>
+            </span>
+        </div>
+    </div>
+    <br />
+    <table class="table table-striped table-hover
+            table-bordered table-condensed" style="width: 98%; margin: auto;">
+        <tr>
+            <th>专业编号</th>
+            <th>专业名称</th>
+            <th>所属学院</th>
+            <th>专业描述</th>
+            <th>创建时间</th>
+            <th>修改时间</th>
+            <th>操作</th>
+        </tr>
+        <tr v-for="p in professions | filterBy filterKey ">
+            <td v-cloak>{{ p.number }}</td>
+            <td v-cloak>{{ p.name }}</td>
+            <td v-cloak>{{ p.collegeName }}</td>
+            <td v-cloak>{{ p.description }}</td>
+            <td v-cloak>{{ p.createTime }}</td>
+            <td v-cloak>{{ p.updateTime }}</td>
+            <td>
+                <span class="glyphicon glyphicon-edit" style="color: #337ab7;" title="修改" v-on:click="editClick($index)"></span>&nbsp;
+                <span class="glyphicon glyphicon-remove" style="color: #D9534F;" title="删除" v-on:click="deleteProfession($index)"></span>
+            </td>
+        </tr>
+    </table>
+
+    <!-- 添加信息模态框 -->
+    <div class="modal fade" id="addProfession" tabindex="-1" role="dialog" aria-labelledby="add">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" id="add">添加专业信息</h4>
+                </div>
+                <form action="" method="post" class="form-horizontal">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="collegeNumAdd" class="col-sm-2 control-label">学院名称</label>
+                            <div class="col-sm-10">
+                                <select class="form-control" id="collegeNumAdd" v-model="profession.collegeNum" required>
+                                    <option v-for="c in colleges" value={{c.number}}>{{c.name}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="numberAdd" class="col-sm-2 control-label">专业编号</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="numberAdd" name="number"
+                                       v-model="profession.number" required/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="nameAdd" class="col-sm-2 control-label">专业名称</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="nameAdd" name="name"
+                                       v-model="profession.name" required/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="descriptionAdd" class="col-sm-2 control-label">专业描述</label>
+                            <div class="col-sm-10">
+                                    <textarea class="form-control" rows="3" name="description" id="descriptionAdd"
+                                              v-model="profession.description" required></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                        <button type="button" class="btn btn-primary" v-on:click="addProfession">添加</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- 修改信息模态框 -->
+    <div class="modal fade" id="editProfession" tabindex="-1" role="dialog" aria-labelledby="edit">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" id="edit">修改专业信息</h4>
+                </div>
+                <form action="" method="post" class="form-horizontal">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="collegeNumEdit" class="col-sm-2 control-label">学院名称</label>
+                            <div class="col-sm-10">
+                                <select class="form-control" id="collegeNumEdit" v-model="profession.collegeNum" required>
+                                    <option v-for="c in colleges" value={{c.number}}>{{c.name}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="numberEdit" class="col-sm-2 control-label">专业编号</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="numberEdit" name="number"
+                                       v-model="profession.number" required/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="nameEdit" class="col-sm-2 control-label">专业名称</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="nameEdit" name="name"
+                                       v-model="profession.name" required/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="descriptionEdit" class="col-sm-2 control-label">专业描述</label>
+                            <div class="col-sm-10">
+                                <textarea class="form-control" rows="3" name="description" id="descriptionEdit"
+                                          v-model="profession.description" required></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                        <button type="button" class="btn btn-primary" v-on:click="editProfession">修改</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript" src="/static/js/vue.js"></script>
+    <script type="text/javascript" src="/static/js/controller/admin.profession.js"></script>
+</body>
+</html>

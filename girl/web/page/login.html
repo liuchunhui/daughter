@@ -1,0 +1,42 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>login</title>
+    <link href="/static/css/semantic.css" rel="stylesheet" type="text/css" />
+    <style type="text/css">
+        label {
+            color: #ffffff !important;
+        }
+    </style>
+</head>
+<body style="background: linear-gradient(45deg,#020031 0,#2E8682 100%); color: #ffffff;">
+<div style="width: 50%; margin: auto; margin-top: 8%;" id="loginEl">
+    <h1 style="text-align: center">学生信息管理系统</h1>
+    <form style="margin: auto; margin-top: 100px; width: 60%;"
+          class="ui form" name="ThisForm" action="/login" method="post">
+        <div class="field">
+            <label for="username">用户名</label>
+            <input autofocus name="username" type="text" id="username" required
+                   title="请填写用户名" v-model="username" />
+        </div>
+        <div class="field">
+            <label for="password">密码</label>
+            <input name="password" type="password" id="password" required
+                   title="请填写密码" v-model="password"/>
+        </div>
+        <div class="field">
+            <label for="usertype">类型</label>
+            <select class="ui dropdown" name="usertype" id="usertype" required
+                    title="请选择登陆角色" v-model="usertype">
+                <option value="admin" selected>管理员</option>
+                <option value="teacher">老师</option>
+                <option value="student">学生</option>
+            </select>
+        </div>
+        <button class="right floated ui primary button" type="button" v-on:click="login">登陆系统</button>
+    </form>
+</div>
+<script type="text/javascript" src="/static/js/jquery.min.js"></script>
+<script type="text/javascript" src="/static/js/vue.js"></script>
+<script type="text/javascript" src="/static/js/controller/login.js"></script>
+</body>

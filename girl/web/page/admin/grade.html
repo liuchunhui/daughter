@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>学生信息管理系统</title>
+    <link rel="stylesheet" type="text/css" href="/static/css/bootstrap.min.css" />
+    <script type="text/javascript" src="/static/js/jquery.min.js"></script>
+    <script type="text/javascript" src="/static/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/static/js/controller/common.js"></script>
+</head>
+<body id="adminGrade">
+    <h2>
+        班级基本信息列表
+        <button type="button" class="btn btn-success btn-xs" data-toggle="modal"
+            v-on:click="addClick">添加</button>
+    </h2>
+    <br />
+    <div class="col-lg-4" style="width: 35%;margin-left: 65%;">
+        <div class="input-group">
+            <input type="text" class="form-control" v-model="filterKey" />
+            <span class="input-group-btn">
+                <button class="btn btn-primary" type="button">查询</button>
+            </span>
+        </div>
+    </div>
+    <br />
+    <table class="table table-striped table-hover
+        table-bordered table-condensed" style="width: 98%; margin: auto;">
+        <tr>
+            <th>班级编号</th>
+            <th>班级名称</th>
+            <th>所属专业</th>
+            <th>所属学院</th>
+            <th>创建时间</th>
+            <th>修改时间</th>
+            <th>操作</th>
+        </tr>
+        <tr v-for="g in grades | filterBy filterKey ">
+            <td v-cloak>{{ g.number }}</td>
+            <td v-cloak>{{ g.name }}</td>
+            <td v-cloak>{{ g.profession.name }}</td>
+            <td v-cloak>{{ g.profession.college.name }}</td>
+            <td v-cloak>{{ g.createTime }}</td>
+            <td v-cloak>{{ g.updateTime }}</td>
+            <td>
+                <span class="glyphicon glyphicon-edit" style="color: #337ab7;" title="修改" v-on:click="editClick($index)"></span>&nbsp;
+                <span class="glyphicon glyphicon-remove" style="color: #D9534F;" title="删除" v-on:click="deleteGrade($index)"></span>
+            </td>
+        </tr>
+    </table>
+
+    <!-- 添加信息模态框 -->
+    <div class="modal fade" id="addGrade" tabindex="-1" role="dialog" aria-labelledby="add">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" id="add">添加班级信息</h4>
+                </div>
+                <form action="" method="post" class="form-horizontal">
+                    <div class="form-group">
+                        <label for="collegeNumEdit" class="col-sm-2 control-label">专业名称</label>
+                        <div class="col-sm-10">
+                            <select class="form-control" id="collegeNumEdit" v-model="grade.professionNum">
+                                <option v-for="p in professions" value={{p.number}}>{{p.name}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="numberAdd" class="col-sm-2 control-label">班级编号</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="numberAdd" name="number"
+                                   v-model="grade.number"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="nameAdd" class="col-sm-2 control-label">班级名称</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="nameAdd" name="name"
+                                   v-model="grade.name"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                        <button type="button" class="btn btn-primary" v-on:click="addGrade">添加</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- 修改信息模态框 -->
+    <div class="modal fade" id="editGrade" tabindex="-1" role="dialog" aria-labelledby="edit">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" id="edit">修改班级信息</h4>
+                </div>
+                <form action="" method="post" class="form-horizontal">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="professionNumEdit" class="col-sm-2 control-label">专业名称</label>
+                            <div class="col-sm-10">
+                                <select class="form-control" id="professionNumEdit" v-model="grade.professionNum">
+                                    <option v-for="p in professions" value={{p.number}}>{{p.name}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="numberEdit" class="col-sm-2 control-label">班级编号</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="numberEdit" name="number"
+                                   v-model="grade.number" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="nameEdit" class="col-sm-2 control-label">班级名称</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="nameEdit" name="name" v-model="grade.name"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                        <button type="button" class="btn btn-primary" v-on:click="editGrade">修改</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript" src="/static/js/vue.js"></script>
+    <script type="text/javascript" src="/static/js/controller/admin.grade.js"></script>
+</body>
+</html>

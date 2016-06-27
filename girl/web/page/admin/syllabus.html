@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>学生信息管理系统</title>
+    <link rel="stylesheet" type="text/css" href="/static/css/bootstrap.min.css" />
+    <script type="text/javascript" src="/static/js/jquery.min.js"></script>
+    <script type="text/javascript" src="/static/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/static/js/controller/common.js"></script>
+</head>
+<body id="adminSyllabus">
+    <h2>
+        课程表基本信息列表
+        <button type="button" class="btn btn-success btn-xs" data-toggle="modal"
+            v-on:click="addClick">添加</button>
+    </h2>
+    <br />
+    <div class="col-lg-4" style="width: 35%;margin-left: 65%;">
+        <div class="input-group">
+            <input type="text" class="form-control" v-model="filterKey" />
+            <span class="input-group-btn">
+                <button class="btn btn-primary" type="button">查询</button>
+            </span>
+        </div>
+    </div>
+    <br />
+    <table class="table table-striped table-hover
+            table-bordered table-condensed" style="width: 98%; margin: auto;">
+        <tr>
+            <th>课程名称</th>
+            <th>课程类型</th>
+            <th>授课教师</th>
+            <th>授课班级</th>
+            <th>学时</th>
+            <th>开始时间</th>
+            <th>结束时间</th>
+            <th>操作</th>
+        </tr>
+        <tr v-for="s in syllabuses | filterBy filterKey ">
+            <td v-cloak>{{ s.course.name }}</td>
+            <td v-cloak>{{ s.type }}</td>
+            <td v-cloak>{{ s.teacher.name }}</td>
+            <td v-cloak>{{ s.grade.name }}</td>
+            <td v-cloak>{{ s.course.period }}</td>
+            <td v-cloak>{{ s.starttime }}</td>
+            <td v-cloak>{{ s.endtime }}</td>
+            <td>
+                <span class="glyphicon glyphicon-edit" style="color: #337ab7;" title="修改" v-on:click="editClick($index)"></span>&nbsp;
+                <span class="glyphicon glyphicon-remove" style="color: #D9534F;" title="删除" v-on:click="deleteSyllabus($index)"></span>
+            </td>
+        </tr>
+    </table>
+
+    <!-- 添加信息模态框 -->
+    <div class="modal fade" id="addSyllabus" tabindex="-1" role="dialog" aria-labelledby="add">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" id="add">添加课程表信息</h4>
+                </div>
+                <form action="" method="post" class="form-horizontal">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="courseNumAdd" class="col-sm-2 control-label">课程名称</label>
+                            <div class="col-sm-10">
+                                <select class="form-control" id="courseNumAdd" v-model="syllabus.courseNum" required>
+                                    <option v-for="c in courses" value={{c.number}}>{{c.name}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="typeAdd" class="col-sm-2 control-label">课程类型</label>
+                            <div class="col-sm-10">
+                                <select class="form-control" id="typeAdd" v-model="syllabus.type" required>
+                                    <option value="必修课">必修课</option>
+                                    <option value="选修课">选修课</option>
+                                    <option value="实践课">实践课</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="gradeNumAdd" class="col-sm-2 control-label">班级名称</label>
+                            <div class="col-sm-10">
+                                <select class="form-control" id="gradeNumAdd" v-model="syllabus.gradeNum" required>
+                                    <option v-for="g in grades" value={{g.number}}>{{g.name}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="teacherNumAdd" class="col-sm-2 control-label">任课教师</label>
+                            <div class="col-sm-10">
+                                <select class="form-control" id="teacherNumAdd" v-model="syllabus.teacherNum" required>
+                                    <option v-for="t in teachers" value={{t.number}}>{{t.name}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="starttimeAdd" class="col-sm-2 control-label">开始时间</label>
+                            <div class="col-sm-10">
+                                <input type="date" class="form-control" id="starttimeAdd" name="starttime"
+                                       v-model="syllabus.starttime" required/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="endtimeAdd" class="col-sm-2 control-label">结束时间</label>
+                            <div class="col-sm-10">
+                                <input type="date" class="form-control" id="endtimeAdd" name="endtime"
+                                       v-model="syllabus.endtime" required/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                        <button type="button" class="btn btn-primary" v-on:click="addSyllabus">添加</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- 修改信息模态框 -->
+    <div class="modal fade" id="editSyllabus" tabindex="-1" role="dialog" aria-labelledby="edit">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" id="edit">修改课程表信息</h4>
+                </div>
+                <form action="" method="post" class="form-horizontal">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="courseNumEdit" class="col-sm-2 control-label">课程名称</label>
+                            <div class="col-sm-10">
+                                <select class="form-control" id="courseNumEdit" v-model="syllabus.courseNum" required>
+                                    <option v-for="c in courses" value={{c.number}}>{{c.name}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="typeEdit" class="col-sm-2 control-label">课程类型</label>
+                            <div class="col-sm-10">
+                                <select class="form-control" id="typeEdit" v-model="syllabus.type" required>
+                                    <option value="必修课">必修课</option>
+                                    <option value="选修课">选修课</option>
+                                    <option value="实践课">实践课</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="gradeNumEdit" class="col-sm-2 control-label">班级名称</label>
+                            <div class="col-sm-10">
+                                <select class="form-control" id="gradeNumEdit" v-model="syllabus.gradeNum" required>
+                                    <option v-for="g in grades" value={{g.number}}>{{g.name}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="teacherNumEdit" class="col-sm-2 control-label">任课教师</label>
+                            <div class="col-sm-10">
+                                <select class="form-control" id="teacherNumEdit" v-model="syllabus.teacherNum" required>
+                                    <option v-for="t in teachers" value={{t.number}}>{{t.name}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="starttimeEdit" class="col-sm-2 control-label">开始时间</label>
+                            <div class="col-sm-10">
+                                <input type="date" class="form-control" id="starttimeEdit" name="starttime"
+                                       v-model="syllabus.starttime" required/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="endtimeEdit" class="col-sm-2 control-label">结束时间</label>
+                            <div class="col-sm-10">
+                                <input type="date" class="form-control" id="endtimeEdit" name="endtime"
+                                       v-model="syllabus.endtime" required/>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                            <button type="button" class="btn btn-primary" v-on:click="editSyllabus">修改</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript" src="/static/js/vue.js"></script>
+    <script type="text/javascript" src="/static/js/controller/admin.syllabus.js"></script>
+</body>
+</html>

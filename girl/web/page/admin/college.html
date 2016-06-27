@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>学生信息管理系统</title>
+    <link rel="stylesheet" type="text/css" href="/static/css/bootstrap.min.css" />
+    <!--<link rel="stylesheet" type="text/css" href="/static/css/dataTables.bootstrap.min.css" />-->
+    <script type="text/javascript" src="/static/js/jquery.min.js"></script>
+    <script type="text/javascript" src="/static/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/static/js/jquery.dataTables.min.js"></script>
+    <!--<script type="text/javascript" src="/static/js/dataTables.bootstrap.min.js"></script>-->
+    <script type="text/javascript" src="/static/js/controller/common.js"></script>
+
+</head>
+<body id="adminCollege">
+    <h2>
+        学院基本信息列表
+        <button type="button" class="btn btn-success btn-xs" data-toggle="modal"
+            v-on:click="addClick">添加</button>
+    </h2>
+    <br />
+    <div class="col-lg-4" style="width: 35%;margin-left: 65%;">
+        <div class="input-group">
+            <input type="text" class="form-control" v-model="filterKey">
+            <span class="input-group-btn">
+                <button class="btn btn-primary" type="button">查询</button>
+            </span>
+        </div>
+    </div>
+    <br />
+    <!--<table id="college-table" class="table table-striped table-bordered table-condensed whitebkgrd-color">-->
+        <!--<thead>-->
+        <!--<tr>-->
+            <!--<th>学院编号</th>-->
+            <!--<th>学院名称</th>-->
+            <!--<th>学院描述</th>-->
+            <!--<th>操作</th>-->
+        <!--</tr>-->
+        <!--</thead>-->
+        <!--<tbody></tbody>-->
+    <!--</table>-->
+    <table class="table table-striped table-hover
+        table-bordered table-condensed" style="width: 98%; margin: auto;">
+        <tr>
+            <th>学院编号</th>
+            <th>学院名称</th>
+            <th>学院描述</th>
+            <th>创建时间</th>
+            <th>修改时间</th>
+            <th>操作</th>
+        </tr>
+        <tr v-for="c in colleges | filterBy filterKey " v-cloak>
+            <td v-cloak>{{ c.number }}</td>
+            <td v-cloak>{{ c.name }}</td>
+            <td v-cloak>{{ c.description }}</td>
+            <td v-cloak>{{ c.createTime }}</td>
+            <td v-cloak>{{ c.updateTime }}</td>
+            <td>
+                <span class="glyphicon glyphicon-edit" style="color: #337ab7;" title="修改" v-on:click="editClick($index)"></span>&nbsp;
+                <span class="glyphicon glyphicon-remove" style="color: #D9534F;" title="删除" v-on:click="deleteCollege($index)"></span>
+            </td>
+        </tr>
+    </table>
+
+    <!-- 添加信息模态框 -->
+    <div class="modal fade" id="addCollege" tabindex="-1" role="dialog" aria-labelledby="add">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" id="add">添加学院信息</h4>
+                </div>
+                <form action="" method="post" class="form-horizontal">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="numberAdd" class="col-sm-2 control-label">学院编号</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="numberAdd" name="number"
+                                   placeholder="001" v-model="college.number"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="nameAdd" class="col-sm-2 control-label">学院名称</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="nameAdd" name="name"
+                                   v-model="college.name"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="descriptionAdd" class="col-sm-2 control-label">学院描述</label>
+                            <div class="col-sm-10">
+                                <textarea class="form-control" rows="3" name="description" id="descriptionAdd"
+                                    v-model="college.description"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                        <button type="button" class="btn btn-primary" v-on:click="addCollege">添加</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- 修改信息模态框 -->
+    <div class="modal fade" id="editCollege" tabindex="-1" role="dialog" aria-labelledby="edit">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" id="edit">修改学院信息</h4>
+                </div>
+                <form action="" method="post" class="form-horizontal">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="numberEdit" class="col-sm-2 control-label">学院编号</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="numberEdit" name="number" v-model="college.number"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="nameEdit" class="col-sm-2 control-label">学院名称</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="nameEdit" name="name" v-model="college.name"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="descriptionEdit" class="col-sm-2 control-label">学院描述</label>
+                            <div class="col-sm-10">
+                                <textarea class="form-control" rows="3" name="description" id="descriptionEdit" v-model="college.description"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                        <button type="button" class="btn btn-primary" v-on:click="editCollege">修改</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript" src="/static/js/vue.js"></script>
+    <script type="text/javascript" src="/static/js/controller/admin.college.js"></script>
+</body>
+</html>

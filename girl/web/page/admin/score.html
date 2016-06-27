@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>学生信息管理系统</title>
+    <link rel="stylesheet" type="text/css" href="/static/css/bootstrap.min.css" />
+    <script type="text/javascript" src="/static/js/jquery.min.js"></script>
+    <script type="text/javascript" src="/static/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/static/js/controller/common.js"></script>
+</head>
+<body id="adminScore">
+<div class="container-fluid">
+    <div class="row">
+        <h2>成绩基本信息列表</h2>
+        <br />
+
+        <div style="width: 35%;margin-left: 65%;">
+            <div class="input-group">
+                <input type="text" class="form-control" v-model="filterKey" />
+                    <span class="input-group-btn">
+                        <button class="btn btn-primary" type="button">查询</button>
+                    </span>
+            </div>
+        </div>
+        <br />
+        <table class="table table-striped table-hover
+            table-bordered table-condensed" style="width: 98%; margin: auto;">
+            <tr>
+                <th>学生姓名</th>
+                <th>学号</th>
+                <th>课程</th>
+                <th>成绩</th>
+                <th>学生班级</th>
+                <th>学生专业</th>
+                <th>学生学院</th>
+                <th>授课老师</th>
+                <th>老师学院</th>
+                <th>操作</th>
+            </tr>
+            <tr v-for="s in scores | filterBy filterKey ">
+                <td>{{ s.student.name }}</td>
+                <td>{{ s.student.number }}</td>
+                <td>{{ s.syllabus.course.name }}</td>
+                <td>{{ s.score}}</td>
+                <td>{{ s.student.grade.name }}</td>
+                <td>{{ s.student.grade.profession.name }}</td>
+                <td>{{ s.student.grade.profession.college.name }}</td>
+                <td>{{ s.syllabus.teacher.name }}</td>
+                <td>{{ s.syllabus.teacher.college.name }}</td>
+                <td>
+                        <span class="glyphicon glyphicon-edit" style="color: #337ab7;" title="修改"
+                              v-on:click="editClick($index)"></span>&nbsp;
+                        <span class="glyphicon glyphicon-remove" style="color: #D9534F;" title="删除"
+                              v-on:click="deleteScore($index)"></span>
+                </td>
+            </tr>
+        </table>
+
+        <!-- 修改成绩模态框 -->
+        <div class="modal fade" id="editScore" tabindex="-1" role="dialog" aria-labelledby="edit">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h4 class="modal-title" id="edit">修改成绩信息</h4>
+                    </div>
+                    <form action="" method="post" class="form-horizontal">
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label for="studentEdit" class="col-sm-2 control-label">学生姓名</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" id="studentEdit" name="studentNum"
+                                           v-model="score.studentName" readonly/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="syllabusEdit" class="col-sm-2 control-label">课程名称</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" id="syllabusEdit" name="syllabusName"
+                                           v-model="score.syllabusName" readonly/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="scoreEdit" class="col-sm-2 control-label">成绩</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" id="scoreEdit" name="score"
+                                           v-model="score.score"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                            <button type="button" class="btn btn-primary" v-on:click="editScore">添加</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="/static/js/vue.js"></script>
+<script type="text/javascript" src="/static/js/controller/admin.score.js"></script>
+</body>
+</html>
